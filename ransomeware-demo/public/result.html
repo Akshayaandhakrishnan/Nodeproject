@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <center> <title>Scan Result</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>File Security Scanner</h1>
+  <p>Upload a file to detect ransomware threats.</p>
+
+  <div class="result safe">
+    <h2>✔ File is Safe</h2>
+
+    <div class="details">
+      <p><b>File:</b> <span id="filename"></span></p>
+      <p><b>Scan Result:</b> No Threats Found</p>
+      <p><b>Scan Time:</b> <span id="time"></span> seconds</p>
+    </div>
+
+    <a href="/" class="btn">Upload Another File</a>
+
+    <ul>
+      <li>✔ Signature-based detection</li>
+      <li>✔ Secure scanning engine</li>
+      <li>✔ Instant result output</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById("filename").innerText = params.get("file");
+  document.getElementById("time").innerText = params.get("time");
+</script>
+</center>
+</body>
+</html>

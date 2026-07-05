@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Ransomware Scanner</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #2563eb;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --bg-dark: #0f172a;
+  --card-bg: #1e293b;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 700px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 30px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.drop-zone {
+  border: 2px dashed #334155;
+  border-radius: 15px;
+  padding: 40px 20px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.drop-zone.dragover {
+  border-color: var(--primary);
+  background: rgba(37,99,235,0.1);
+}
+
+.drop-zone p {
+  margin: 10px 0;
+  color: #cbd5e1;
+}
+
+.file-name {
+  margin-top: 15px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+button {
+  margin-top: 20px;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.scan-btn {
+  background: var(--primary);
+  color: white;
+}
+
+.scan-btn:hover {
+  transform: scale(1.05);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #334155;
+  border-radius: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  display: none;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  transition: width 0.4s ease;
+}
+
+.result-card {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 12px;
+  display: none;
+  font-weight: 600;
+}
+
+.safe { background: rgba(34,197,94,0.2); color: var(--success); }
+.danger { background: rgba(239,68,68,0.2); color: var(--danger); }
+.warning { background: rgba(245,158,11,0.2); color: var(--warning); }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🛡️ Zero-Trust File Security Scanner</h1>
+
+  <form id="scanForm" action="/scan" method="POST" enctype="multipart/form-data">
+    
+    <div class="drop-zone" id="dropZone">
+      <p><strong>Drag & Drop File</strong></p>
+      <p>or click to browse</p>
+      <div class="file-name" id="fileName">No file selected</div>
+    </div>
+
+    <input type="file" name="file" id="fileInput" required>
+
+    <button type="submit" class="scan-btn">Start Security Scan</button>
+
+    <div class="progress-bar" id="progressBar">
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="result-card" id="resultCard"></div>
+
+  </form>
+</div>
+
+<script>
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("fileName");
+const form = document.getElementById("scanForm");
+const progressBar = document.getElementById("progressBar");
+const progress = document.getElementById("progress");
+const resultCard = document.getElementById("resultCard");
+
+// Click opens file dialog
+dropZone.addEventListener("click", () => fileInput.click());
+
+// File select
+fileInput.addEventListener("change", () => {
+  if(fileInput.files.length > 0){
+    fileName.innerText = fileInput.files[0].name;
+  }
+});
+
+// Drag effects
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+});
+
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("dragover");
+});
+
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  fileInput.files = e.dataTransfer.files;
+  fileName.innerText = fileInput.files[0].name;
+});
+
+// Fake scan animation (replace with real backend response)
+form.addEventListener("submit", function(e){
+  progressBar.style.display = "block";
+  resultCard.style.display = "none";
+
+  let width = 0;
+  const interval = setInterval(() => {
+    width += 10;
+    progress.style.width = width + "%";
+    if(width >= 100){
+      clearInterval(interval);
+
+      // Example result (Replace with backend response)
+      showResult("SAFE FILE - No ransomware detected", "safe");
+    }
+  }, 200);
+});
+
+function showResult(message, type){
+  resultCard.innerText = message;
+  resultCard.className = "result-card " + type;
+  resultCard.style.display = "block";
+}
+</script>
+
+</body>
+</html>

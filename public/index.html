@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ransomware Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 40px;
+      border-radius: 16px;
+      width: 450px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0px 10px 35px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      font-weight: 600;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-box {
+      border: 2px dashed rgba(255,255,255,0.5);
+      padding: 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    .file-box:hover {
+      border-color: #38bdf8;
+      background: rgba(255,255,255,0.12);
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px 35px;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #2563eb;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>🛡️ Ransomware Detection System</h2>
+
+    <form action="/scan" method="POST" enctype="multipart/form-data">
+      <label class="file-box" id="drop-area">
+        Drag & Drop your file here
+        <br><br>
+        <small>or click to choose</small>
+      </label>
+      <input id="file-input" type="file" name="file" required>
+
+      <button type="submit">Scan File</button>
+    </form>
+  </div>
+
+  <script>
+    const dropArea = document.getElementById("drop-area");
+    const fileInput = document.getElementById("file-input");
+
+    dropArea.onclick = () => fileInput.click();
+
+    dropArea.ondragover = (e) => {
+      e.preventDefault();
+      dropArea.style.borderColor = "#38bdf8";
+    };
+
+    dropArea.ondragleave = () => {
+      dropArea.style.borderColor = "rgba(255,255,255,0.5)";
+    };
+
+    dropArea.ondrop = (e) => {
+      e.preventDefault();
+      fileInput.files = e.dataTransfer.files;
+    };
+  </script>
+
+</body>
+</html>
